@@ -51,4 +51,13 @@ describe RemoteControl do
     end
   end
 
+  describe "#back" do
+    it "should go back to the previous channel" do
+      @rc.current = 100
+      @rc.current = 200
+      @rc.back
+      @rc.current.should == 100
+    end
+  end
+
 end

@@ -1,6 +1,6 @@
 class RemoteControl
   attr_reader :channels
-  attr_accessor :current
+  attr_accessor :current, :previous
 
   def initialize opts
     @channels = (opts[:low]..opts[:high]).to_a - opts[:blocked]
@@ -18,6 +18,15 @@ class RemoteControl
       (current_index == 0) ? channels.size-1 : current_index-1
     end
     self.current = channels[new_index]
+  end
+
+  def back
+    self.current = previous
+  end
+
+  def current= value
+    self.previous = current
+    @current = value
   end
 
 end
