@@ -19,7 +19,9 @@ class RemoteControl
   end
 
   def down
-
+    current_index = channels.index current
+    new_index = (current_index == 0) ? channels.size-1 : current_index-1
+    self.current = channels[new_index]
   end
 
 end
