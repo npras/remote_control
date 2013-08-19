@@ -10,12 +10,9 @@ class RemoteControl
   end
 
   def up
-    channels.each_with_index do |e, i|
-      if e == current
-        self.current = channels[i+1-channels.size]
-        break
-      end
-    end
+    current_index = channels.index current
+    new_index = (current_index == channels.size-1) ? 0 : current_index+1
+    self.current = channels[new_index]
   end
 
   def down
