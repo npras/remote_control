@@ -1,11 +1,11 @@
 class RemoteControl
-  attr_reader :channels
-  attr_accessor :current, :previous
+  attr_reader :channels, :clicks, :previous
+  attr_accessor :current
 
   def initialize opts
     @channels = (opts[:low]..opts[:high]).to_a - opts[:blocked]
     @clicks = 0
-    @current = channels.sample # picks random channel at startup
+    @current = channels.first # picks first non-blocked channel at startup
     @sequence = opts[:sequence]
   end
 
@@ -18,17 +18,28 @@ class RemoteControl
       (current_index == 0) ? channels.size-1 : current_index-1
     end
     self.current = channels[new_index]
+    incr_clicks
   end
 
   def back
     self.current = previous
+    incr_clicks
   end
 
   def current= value
-    self.previous = current
+    @previous = current
     @current = value
   end
 
-  alias_method :goto, :current=
+  def goto value
+    incr_clicks value.to_s.size
+    self.current = value
+  end
+
+  private
+  def incr_clicks count = 1
+    @clicks += count
+  end
 
 end
+

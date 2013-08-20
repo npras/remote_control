@@ -17,7 +17,7 @@ describe RemoteControl do
       @rc.op :next
       @rc.current.should == 4
     end
-    
+
     it "should skip blocked channels" do
       @rc.current = 1
       @rc.op :next
@@ -37,7 +37,7 @@ describe RemoteControl do
       @rc.op :prev
       @rc.current.should == 4
     end
-    
+
     it "should skip blocked channels" do
       @rc.current = 20
       @rc.op :prev
@@ -73,7 +73,33 @@ describe RemoteControl do
       @rc.op :next #13
       @rc.op :prev #12
       @rc.op :prev #11
-      @rc.current.should == 11
+      @rc.back     #12
+      @rc.current.should == 12
+    end
+  end
+
+  describe "#clicks" do
+    it "should be zero initially" do
+      @rc.clicks.should be_zero
+    end
+
+    it "should work for 'back', 'next, and 'prev' buttons" do
+      @rc.current = 12
+      @rc.op :next
+      @rc.op :prev
+      @rc.op :next
+      @rc.op :next
+      @rc.back
+      @rc.clicks.should == 5
+    end
+
+    it "should work 'correctly' for '#goto' button" do
+      @rc.current = 1
+      @rc.goto 12   # 2 clicks
+      @rc.goto 114  # 3 clicks
+      @rc.goto 2    # 1 click
+      @rc.goto 1154 # 4 clicks
+      @rc.clicks.should == 10
     end
   end
 
