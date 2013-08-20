@@ -29,4 +29,6 @@ class RemoteControl
     @current = value
   end
 
+  alias_method :goto, :current=
+
 end

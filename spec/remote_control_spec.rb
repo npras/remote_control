@@ -60,4 +60,21 @@ describe RemoteControl do
     end
   end
 
+  describe "#goto" do
+    it "should go straight to a given channel" do
+      @rc.current = 100
+      @rc.goto 177
+      @rc.current.should == 177
+    end
+
+    it "should work with the 'back','next', and 'prev' buttons" do
+      @rc.current = 1
+      @rc.goto 12 #12
+      @rc.op :next #13
+      @rc.op :prev #12
+      @rc.op :prev #11
+      @rc.current.should == 11
+    end
+  end
+
 end
