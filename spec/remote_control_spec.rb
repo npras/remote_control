@@ -103,4 +103,10 @@ describe RemoteControl do
     end
   end
 
+  describe "#min_clicks" do
+    it "should work as expected" do
+      @rc.min_clicks.should == 8
+    end
+  end
+
 end

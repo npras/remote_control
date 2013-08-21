@@ -1,5 +1,5 @@
 class RemoteControl
-  attr_reader :channels, :clicks, :previous
+  attr_reader :channels, :clicks, :previous, :sequence
   attr_accessor :current
 
   def initialize opts
@@ -7,6 +7,12 @@ class RemoteControl
     @clicks = 0
     @current = channels.first # picks first non-blocked channel at startup
     @sequence = opts[:sequence]
+  end
+
+  def min_clicks
+    sequence.each_with_index do |e, i|
+      next if e == current and i == 0
+    end
   end
 
   def op action
